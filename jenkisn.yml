@@ -2,18 +2,21 @@
 - hosts: localhost
   become: yes
   tasks:
-    - name: install epel package
-      yum:
-        name:
-          - epel-release -y
-          - wget
-          - java-1.8.0-openjdk
-    - name: install jenkins repo
-      wget: -O /etc/yum.repos.d/jenkins.repo
-        http://pkg.jenkins.io/redhat-stable/jenkins.repo
-    - name: adding the key by using url
-      rpm_key:
-        state: present
-        key: --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key
-        yum: 
-        name: install jenkins -y
+  - name: "install epel package"
+    command: yum install epel-release -y
+
+  - name: "install the package by using url"
+    get_url:
+      url: 'http://pkg.jenkins.io/redhat-stable/jenkins.repo'
+      dest: /etc/yum.repos.d/jenkins.repo 
+    #command: wget -O /etc/yum.repos.d/jenkins.repo / http://pkg.jenkins.io/redhat-stable/jenkins.repo
+ 
+  - name: "import the key"
+    command: rpm --import http://pkg.jenkins.io/redhat-stable/jenkins.io.key
+  - name: "installl jenkisn by using yum module"
+    command: yum install jenkins-2.346.1 -y
+  - name: "start jenkins server when the server is booted"
+    service:
+      enabled: yes
+      name: jenkins
+      state: started

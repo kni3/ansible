@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: install java
+      yum:
+        name:
+          - java-1.8.0-openjdk
+ 
+    - name: download nexus
+      get_url: url=https://sonatype-download.global.ssl.fastly.net/nexus/3/nexus-3.0.2-02-unix.tar.gz
+         dest=/home/centos/nexus-3.0.2-02-unix.tar.gz
+    - name: setting path
+      file: path=/home/centos/nexus-3.0.2-02-unix state=directory
+    - name: Unzip nexus
+      unarchive: src=/home/centos/nexus-3.0.2-02-unix.tar.gz  
+        dest=/home/centos/nexus-3.0.2-02-unix  
+        copy=no
+    

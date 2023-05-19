@@ -7,31 +7,43 @@
         name:
           - java-1.8.0-openjdk
 
-    - name: "download the package by using url "
-      get_url:
-        url: https://sonatype-download.global.ssl.fastly.net/nexus/3/nexus-3.0.2-02-unix.tar.gz
-        dest: /opt
-        mode: "0755"
+    #- name: "download the package by using url "
+     # get_url:
+      #  url: https://sonatype-download.global.ssl.fastly.net/nexus/3/nexus-3.0.2-02-unix.tar.gz
+       # dest: /opt
+        
 
     - name: unzip the tar file
       unarchive:
-        src: /opt/nexus-3.0.2-02-unix.tar.gz
-        dest: /opt/nexus
+        src: /opt/https://sonatype-download.global.ssl.fastly.net/nexus/3/nexus-3.0.2-02-unix.tar.gzi
+        dest: /opt
+        owner: root
+        group: root
+      
 
-    - name: Change file ownership, group and permissions
-      file:
-        path: /opt/nexus
-        owner: centos
-        group: centos
-        mode: "0757"
+   # - name: "unzip the downloader tar file"
+    #  command: chdir=/opt/
+     # command : tar -zxvf nexus-3.0.2-02-unix.tar.gz
+
+      
+    #- name: "change the name of the package"
+      #command: mv /opt/nexus-3.0.2-02-unix.tar.gz  nexus/
+
+ 
+    #- name: Change file ownership, group and permissions
+     # file: 
+      #  path: /opt/nexus
+       # owner: centos
+        #group: centos
+        #mode: "0777"
 
     - name: Add a line to a file if the file does not exist, without passing regexp
       lineinfile:
-        path: /opt/nexus/bin/nexus.rc
+        path: /opt/nexus-3.0.2-02-unix/nexus-3.0.2-02/bin/nexus.rc
         line: run_as_user="centos"
         create: yes
 
-    - name: start jenkins server when the server is booted
+    - name: start nexus server when the server is booted
       service:
         enabled: yes
         name: nexus

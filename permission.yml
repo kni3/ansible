@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  become: yes
+  tasks:
+    - name: change the file owner
+      file:
+        path: "/opt"
+        state: directory
+        owner: centos
+        group: root
+        mode: 0770
+        become: yes
